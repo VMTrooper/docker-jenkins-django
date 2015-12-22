@@ -1,8 +1,14 @@
 FROM jenkins
 # if we want to install via apt
 USER root
-RUN apt-get update && apt-get install -y ruby make more-thing-here
-USER jenkins # drop back to the regular jenkins user - good practice
+# COPY chromedriver /usr/bin
+# RUN deb http://packages.linuxmint.com debian import
+RUN apt-get update -qq && apt-get install -qqy python3 python3-pip chromedriver
+RUN pip3 install -q pymongo coverage jinja2 django==1.8.4
+RUN pip3 install --upgrade selenium
+# drop back to the regular jenkins user - good practice
+USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/
-COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
+USER root
+RUN pip3 install django-jenkins
