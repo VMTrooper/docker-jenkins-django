@@ -1,4 +1,4 @@
-FROM jenkins
+FROM jenkins:1.625.3
 # if we want to install via apt
 USER root
 # COPY chromedriver /usr/bin
